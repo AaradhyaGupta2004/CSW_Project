@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Website</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <style>
+        header {
+            position:sticky;
+            padding-top: 20px;
+            height: 80px;
+        }
+        .box{
+            display:flex;
+        }
+            .paymentportal
+            {display:none;
+            }
+
+            .box, .paymentportal{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        #lp, #payment-form{
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 12px 12px 2px 1px rgba(37, 31, 31, 0.2);
+            text-align: center;
+            width: 300px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            // Show login modal
+            $("#login").click(function () {
+                $("#loginpage").css("display", "flex");
+            });
+
+            // Prevent default form submission and validate login
+            $("#loginbtn").click(function (event) {
+                event.preventDefault();
+
+                const email = $("#email").val().trim();
+                const password = $("#password").val().trim();
+
+                if (!email) {
+                    alert("Email is required.");
+                    return;
+                }
+
+                if (!password) {
+                    alert("Password is required.");
+                    return;
+                }
+
+                alert("Login successful!");
+                $("#loginpage").css("display", "none");
+            });
+
+            // Handle form submission for search
+            $("#form").submit(function (event) {
+                event.preventDefault();
+                const searchTerm = $('#searchInput').val().trim();
+
+                if (!searchTerm) {
+                    alert("Please enter a search term.");
+                    return;
+                }
+
+                alert(`You searched for: ${searchTerm}`);
+            });
+            let cart = [];
+
+$(document).on('click', '.add-to-cart', function() {
+    const name = $(this).data('name');
+    const price = parseFloat($(this).data('price'));
+    const existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+        existingItem.quantity++;
+        existingItem.total = existingItem.quantity * existingItem.price;
+    } else {
+        cart.push({ name, price, quantity: 1, total: price });
+    }
+    updateCart();
+});
+
+function updateCart() {
+    const $cartItems = $('#cart-items');
+    $cartItems.empty();
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+        totalAmount += item.total;
+
+        // Append rows to the table using jQuery
+        $cartItems.append(`
+            <tr>
+                <td>${item.name}</td>
+                <td>₹${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>₹${item.total.toFixed(2)}</td>
+            </tr>
+        `);
+    });
+
+    // Update the total amount using jQuery
+
+    $('#cart-total').text(`Total: ₹${totalAmount.toFixed(2)}`);
+}
+        $("#submit-payment-form").click(function(){
+            cart = [];
+            updateCart();
+            $('#payment-portal').hide();
+        });
+        });
+    </script>
+</head>
+<body>
+    <header class="bg-primary text-center">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a href="#" class="navbar-brand text-white">E-Shop</a>
+            <form class="d-flex flex-grow-1" id="form">
+                <input class="form-control" type="search" placeholder="Search for products" aria-label="Search" id="searchInput">
+                <button class="btn btn-outline-light" type="submit" id="searchbtn">Search</button>
+            </form>
+            <button class="btn btn-light" id="login">Login</button>
+        </div>
+    </header>
+
+    <!-- Login Modal -->
+    <div class="box" id="loginpage">
+        <div class="form-group" id="lp">
+            <label for="email">Email id</label>
+            <input type="email" id="email" placeholder="Enter your email" class="form-control" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" class="form-control" required>
+            <button type="submit" class="btn btn-primary text-center" id="loginbtn">Login</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="jumbotron">
+        <div id="demo" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://static.fibre2fashion.com//articleresources/images/38/3730/sse6ea99_Small.jpg" alt="Fashion" class="d-block w-100" height="400">
+                    <div class="carousel-caption bg-info p-3 rounded">
+                        <h5 class="text-light">Fashion</h5>
+                        <p class="text-light">Style Redefined - Discover Your Perfect Look!</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://techychimp.com/wp-content/uploads/2017/09/Important-Tips-to-Buy-Electronic-Products-768x432.jpg" alt="Electronics items" width="98%" height="400px"><br>
+                    <div class="carousel-caption bg-info bg-gradient p-3 rounded">
+                        <h5 class="text-light">Electronic items</h5>
+                        <p class="text-light">Latest Tech, Best Deals-Shop Your Favorites Today!</p>
+                    </div>
+                </div>
+                  <div class="carousel-item">
+                    <img src="https://www.sbid.org/wp-content/uploads/2022/09/living-room-interior-design-3d-render-beig-gray-brown-colored-furniture-wooden-elements_646443-645.jpg" alt="Home and Furniture" width="100%" height="400px"><br>
+                    <div class="carousel-caption bg-info bg-gradient p-3 rounded">
+                        <h5 class="text-light">Home and Furniture</h5>
+                        <p class="text-light">Transform Your Space - Stylish Home & Furniture Awaits!</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://wallpaperaccess.com/full/2792583.jpg" alt="Grocery" width="100%" height="400px"><br>
+                    <div class="carousel-caption bg-info bg-gradient p-3 rounded">
+                        <h5 class="text-light">Grocery</h5>
+                        <p class="text-light">Freshness Delivered - Your Daily Essentials Made Easy!</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://www.eurokidsindia.com/blog/wp-content/uploads/2024/03/plush-toys.jpg" alt="Soft Toys" width="100%" height="400px"><br>
+                    <div class="carousel-caption bg-info bg-gradient p-3 rounded">
+                        <h5 class="text-light">Soft Toys</h5>
+                        <p class="text-light">Cuddle Up with Love - Adorable Soft Toys for Everyone!</p>
+                    </div>
+                  </div>
+
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="container jumbotron">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://www.fabvoguestudio.com/cdn/shop/files/pr-pco-0-ta09686-108-white-floral-pure-cotton-printed-fabric-material-1.jpg" class="card-img-top" alt="Product 1"  width="40px" height="225px">
+                    <div class="card-body">
+                        <h5 class="card-title">Floral Cotton Fabric</h5>
+                        <p class="card-text">Rs 799.00</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Floral Cotton Fabric" data-price="799"> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 product-card">
+                <div class="card">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.EQJ_yf3Pl3Nmti6EHgiXvQHaE8&pid=Api&P=0&h=180" class="card-img-top" alt="Product 2" width="400px" height="200px">
+                    <div class="card-body">
+                        <h5 class="card-title">Apple 2024 MacBook Air-Space Gray</h5>
+                        <p class="card-text">Rs 1,08,006.00</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Apple 2024 MacBook Air-Space Gray" data-price="108006">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 product-card">
+                <div class="card">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.Ldc1oPTWSWsrSF6odxzmQQHaGL&pid=Api&P=0&h=180" class="card-img-top" alt="Product 3" width="400px" height="200px">
+                    <div class="card-body">
+                        <h5 class="card-title">Beautiful Modern Sofa Furniture-Beige</h5>
+                        <p class="card-text">Rs 79,999.00</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Beautiful Modern Sofa Furniture-Beige" data-price="79999">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 product-card">
+              <div class="card">
+                  <img src="https://tse3.mm.bing.net/th?id=OIP.1hNBNdw2D56BT1lqcT00GAHaHa&pid=Api&P=0&h=180" class="card-img-top" alt="Product 4" width="400px" height="200px">
+                  <div class="card-body">
+                      <h5 class="card-title">Doremon Combo of 2 Soft Toy-Blue and Pink</h5>
+                      <p class="card-text">Rs 1199.00</p>
+                      <button class="btn btn-primary add-to-cart" data-name="Doremon Combo of 2 Soft Toy-Blue and Pink" data-price="1199">Add to Cart</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 product-card">
+            <div class="card">
+                <img src="https://static1.anpoimages.com/wordpress/wp-content/uploads/2023/01/galaxy-s23-ultra-pinwheel-angle.jpg" class="card-img-top" alt="Product 5" width="400px" height="200px">
+                <div class="card-body">
+                    <h5 class="card-title">Samsung S23 Ultra-(Grey, Black, Pink,White)</h5>
+                    <p class="card-text">Rs 1,10,999.00</p>
+                    <button class="btn btn-primary add-to-cart" data-name="Samsung S23 Ultra" data-price="110999">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 product-card">
+          <div class="card">
+              <img src="https://cdn.shopify.com/s/files/1/0419/1525/files/1024x1024-Mens-Jacket-Keanu-Black-110221-1_2500268f-57c0-4ba9-b9da-0f009a11bdb4_1080x1080.jpg?v=1661565133" class="card-img-top" alt="Product 6" width="400px" height="200px">
+              <div class="card-body">
+                  <h5 class="card-title">Black Leather Jacket-Men-Winter</h5>
+                  <p class="card-text">Rs 2099.00</p>
+                  <button class="btn btn-primary add-to-cart" data-name="Black Leather Jacket-Men-Winter" data-price="2099">Add to Cart</button>
+              </div>
+          </div>
+      </div>
+        </div>
+    </div>
+    <section id="cart" class="container py-5">
+        <h2>Your Cart</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </tbody>
+        </table>
+        <div class="text-end">
+            <h4 id="cart-total">Total:Rs 0.00</h4>
+            <button class="btn btn-success" id="checkout"><a href="./index.html">Proceed to Payment</a></button>
+        </div>
+    </section>
+    <div class="paymentportal" id="payment-portal">
+        <form id="payment-form">
+            <label for="card-no">Card Number</label><br>
+            <input type="text" name="card-no" id="card-no" placeholder="1234 5678 9012 3456"><br><br>
+            <label for="Expiry-date">Expiry Date</label><br>
+            <input type="date" name="expiry-date" id="expiry-date"><br><br>
+            <label for="cvv">CVV</label><br>
+            <input type="password" name="cvv" id="cvv" placeholder="123"> 
+            <button type="submit" class="btn btn-success" id="submit-payment-form">Pay Now</button>
+        </form>
+    </div>
+</body>
+</html>
